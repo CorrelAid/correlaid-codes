@@ -2,9 +2,7 @@
 title: "2021-02-01-test-markdown"
 author: "francesco"
 date: "01/02/2021"
-output: 
-  md_document:
-    preserve_yaml: true
+output: html_document
 toc: true
 layout: post
 categories: [markdown]
