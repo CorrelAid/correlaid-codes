@@ -28,8 +28,8 @@
 
   
       ,"page1": {
-          "title": "About Me",
-          "content": "This website is powered by fastpages 1. . a blogging platform that natively supports Jupyter notebooks in addition to other formats. &#8617; . |",
+          "title": "About",
+          "content": "CorrelAid is a non-partisan non-profit network of data science enthusiasts who want to change the world through data science. We dedicate our work to the social sector and those organizations that strive for making the world a better place. In order to improve data literacy in society, we share our knowledge within our network and beyond and are always looking for ways to broaden our horizons. . On this blog, we collect code contributions from members of our network of over 1600 data scientists. Small code snippets, longer analyses and posts about internal projects have a place here. . Learn more about CorrelAid here .",
           "url": "https://correlaid.github.io/open-data-ideas/about/",
           "relUrl": "/about/",
           "date": ""
@@ -40,6 +40,22 @@
   
 
   
+      ,"page3": {
+          "title": "Open Source",
+          "content": "Projects . erlassjahr | . Package Development . datenguide-py . datenguideR . newsanchor . pocketapi . Open Source CorrelAid Infrastructure . docs | projectutils | projectsdb | projects-django | correltools | .",
+          "url": "https://correlaid.github.io/open-data-ideas/about/",
+          "relUrl": "/about/",
+          "date": ""
+      }
+      
+  
+
+  
+  
+
+  
+
+  
   
 
   
@@ -48,18 +64,13 @@
   
 
   
-
-  
   
 
   
   
 
   
-  
-
-  
-      ,"page10": {
+      ,"page11": {
           "title": "",
           "content": "Sitemap: {{ “sitemap.xml” | absolute_url }} | .",
           "url": "https://correlaid.github.io/open-data-ideas/robots.txt",
