@@ -30,3 +30,9 @@ plot(pressure)
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 I will follow up with a dynamic plot here.
+
+```{r}
+library(leaflet)
+leaflet::leaflet() %>% 
+  leaflet::addTiles()
+```
