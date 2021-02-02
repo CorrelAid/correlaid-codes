@@ -1,9 +1,9 @@
 ---
-toc: true
+title: "An Example Markdown Post"
 layout: post
 description: A minimal example of using markdown with fastpages.
-categories: [markdown]
-title: An Example Markdown Post
+categories: markdown
+toc: yes
 ---
 # Example Markdown Post
 
