@@ -11,6 +11,7 @@ eval "$(ssh-agent -s)"
 # notebook converter using nbdev
 cp /fastpages/settings.ini .
 python /fastpages/nb2post.py
+./knitpages.R
 
 
 ######## Optionally save files and build GitHub Pages ########

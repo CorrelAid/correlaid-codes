@@ -1,8 +1,12 @@
 ---
+=======
+toc: true
+layout: post
 title: "2021-02-02-test-markdown"
 author: "francesco"
 date: "02/02/2021"
 output: html_document
+categories: [Rmarkdown]
 ---
 
 ```{r setup, include=FALSE}
