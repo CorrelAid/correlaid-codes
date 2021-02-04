@@ -1,7 +1,8 @@
 ---
+layout: page
 title: "2021-02-02-test-markdown"
 author: "francesco"
-date: "02/02/2021"
+date: "2021-02-02"
 output: html_document
 ---
 
