@@ -1,0 +1,105 @@
+---
+title: "An example post with RMarkdown - knitted to md and html"
+author: "Frie"
+output:
+  md_document:
+    toc: true
+    toc_depth: 2
+    preserve_yaml: true
+layout: post
+description: a minimal example of using fastpages with rmarkdown
+categories: [howto]
+---
+
+
+
+```{r setup, include=FALSE}
+THIS_FILE_NAME <- "2020-02-05-test-rmarkdown.Rmd" # TODO: CHANGE THIS!!
+THIS_FILE_PATH <- fs::path(here::here(), "_posts", THIS_FILE_NAME)
+FOLDER_NAME <- fs::path_ext_remove(fs::path_file(THIS_FILE_PATH))
+
+# figures
+FIGURE_PATH <- here::here("images", fs::path_ext_remove(fs::path_file(THIS_FILE_PATH)), "/")
+
+get_plot_paths <- function(n_plots = 1) {
+  # n_plots: how many plots do you want to output in this chunk?
+  # get the label of the current chunk (in this case, this would be "setup")
+  chunk_label <- knitr::opts_current$get("label")
+  # we knit to images and open-data-ideas is the base url 
+  fig_path_jekyll <- fs::path("/open-data-ideas", "images", FOLDER_NAME)
+  # plots are named chunk-label-{n}.png where n is the number of plots for the chunk
+  file_paths <- sapply(1:n_plots, function(n) {
+    paste0(fig_path_jekyll, "/", chunk_label, "-", n, ".png")
+  })
+  return(file_paths)
+}
+
+embed_plots <- function(file_paths) {
+  # cat outputs something really as is (i.e. without the #)
+  # cf: https://stackoverflow.com/questions/52631689/how-to-show-formatted-r-output-with-results-asis-in-rmarkdown
+  t <- sapply(file_paths, function(fig_path) {
+  cat(paste0("![image](", fig_path, ")\n"))
+  })
+}
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.path = paste0(FIGURE_PATH, "/"))
+
+
+library(ggplot2)
+library(reactable)
+library(palmerpenguins)
+library(leaflet)
+```
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+```{r pressure, echo=TRUE, results = "asis"}
+pp <- get_plot_paths(2)
+
+ggplot(cars, aes(x = speed))+
+    geom_bar()
+
+ggplot(cars, aes(x = dist))+
+    geom_bar()
+```
+
+
+```{r, echo=FALSE, results="asis"}
+embed_plots(pp)
+```
+
+```{r echo=TRUE, results = "asis"}
+pp <- get_plot_paths(1)
+reactable(palmerpenguins::penguins)
+```
+
+```{r, echo=FALSE, results="asis"}
+embed_plots(pp)
+```
+
+
+```{r leaflet, echo=TRUE}
+pp <- get_plot_paths(1)
+m <- leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=174.768, lat=-36.852, popup="The birthplace of R")
+m
+```
+
+```{r, echo=FALSE, results="asis"}
+embed_plots(pp)
+```
+
