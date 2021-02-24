@@ -1,1 +1,1 @@
-Sitemap: https://correlaid.github.io/open-data-ideas/sitemap.xml
+Sitemap: https://correlaid.github.io/correlaid-codes/sitemap.xml
