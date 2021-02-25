@@ -1,1 +1,1 @@
-Sitemap: https://correlaid.github.io/correlaid-codes/sitemap.xml
+Sitemap: https://codes.correlaid.org/sitemap.xml
