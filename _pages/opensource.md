@@ -5,8 +5,6 @@ permalink: /opensource/
 ---
 
 At CorrelAid, we are big fans of Open Source. We contribute to the community through the maintenance and development of several R and Python packages that all have the aim to make data more easily accessible. In addition, we try to open source our Data4Good projects whenever GDPR allows for it. Finally, we have made our internal documentation and several of our internal tools openly accessible. 
-
-We actively contribute  While we often can't open source our Data4Good projects due to GDPR requirements, we contribute 
 ## Package Development
 - [datenguidepy](https://github.com/CorrelAid/datenguide-python): Python wrapper for the [datenguide API](https://datengui.de), available on [PyPi](https://pypi.org/project/datenguidepy/)
 - [datenguideR](https://github.com/CorrelAid/datenguideR): R wrapper for the [datenguide API](https://datengui.de)

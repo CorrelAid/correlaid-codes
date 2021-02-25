@@ -9,4 +9,4 @@ CorrelAid is a non-partisan non-profit network of data science enthusiasts who w
 
 On this blog, we collect code contributions from members of our network of over 1600 data scientists. Small code snippets, longer analyses, posts about internal projects as well as an overview over our open source contributions have a place here. 
 
-Learn more about CorrelAid [here](https://correlaid.org)
+Learn more about CorrelAid [here](https://correlaid.org).
