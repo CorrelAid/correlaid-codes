@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Madrid Mobility Data | CorrelAid Code[s]</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Madrid Mobility Data" />
+<meta name="author" content="Alexandra Kapp" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Preprocessing Madrid CRTM survey data" />
+<meta property="og:description" content="Preprocessing Madrid CRTM survey data" />
+<link rel="canonical" href="https://codes.correlaid.org/mobility/preprocessing/2021/02/28/Preprocessing_Madrid_Mobility_Data.html" />
+<meta property="og:url" content="https://codes.correlaid.org/mobility/preprocessing/2021/02/28/Preprocessing_Madrid_Mobility_Data.html" />
+<meta property="og:site_name" content="CorrelAid Code[s]" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-28T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://codes.correlaid.org/mobility/preprocessing/2021/02/28/Preprocessing_Madrid_Mobility_Data.html","@type":"BlogPosting","headline":"Madrid Mobility Data","dateModified":"2021-02-28T00:00:00-06:00","datePublished":"2021-02-28T00:00:00-06:00","author":{"@type":"Person","name":"Alexandra Kapp"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codes.correlaid.org/mobility/preprocessing/2021/02/28/Preprocessing_Madrid_Mobility_Data.html"},"description":"Preprocessing Madrid CRTM survey data","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://codes.correlaid.org/feed.xml" title="CorrelAid Code[s]" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">CorrelAid Code[s]</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/opensource/">Open Source</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Madrid Mobility Data</h1><p class="page-description">Preprocessing Madrid CRTM survey data</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-02-28T00:00:00-06:00" itemprop="datePublished">
+        Feb 28, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Alexandra Kapp</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="//categories/#mobility">mobility</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="//categories/#preprocessing">preprocessing</a>
+        
+      
+      </p>
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Download-the-data">Download the data </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Join-datasets">Join datasets </a></li>
+<li class="toc-entry toc-h3"><a href="#join-codes-for-survey-answers">join codes for survey answers </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#create-new-variables">create new variables </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Store-preprocessed-data-to-csv-File-to-work-with-in-your-use-case.">Store preprocessed data to csv-File to work with in your use case. </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-02-28-Preprocessing_Madrid_Mobility_Data.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Madrid (CRTM: Consorcio Regional de Transportes de Madrid), unlike most other cities, provides a rich open data set on survey data on mobility behaviour of ~85.000 people with ~220.000 individual trips.</p>
+<p>The description and results can be found here (in spanish):
+<a href="https://www.crtm.es/media/712934/edm18_sintesis.pdf">https://www.crtm.es/media/712934/edm18_sintesis.pdf</a></p>
+<p>For our <a href="https://correlaid.org/blog/gender_bias_and_mobility/">article</a> we did some preprocessing:</p>
+
+<pre><code>- merging the different data sets
+- translate Spanish codes to English and join with data
+- simplify some answer options (e.g. modal choice or trip motive)
+
+</code></pre>
+<p><strong>If you want to use this data set for your own project, this preproessing might help you get started.</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Download-the-data">
+<a class="anchor" href="#Download-the-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Download the data<a class="anchor-link" href="#Download-the-data"> </a>
+</h2>
+<p>Download all four datasets from here: <a href="https://crtm.maps.arcgis.com/apps/MinimalGallery/index.html?appid=a60bb2f0142b440eadee1a69a11693fc">https://crtm.maps.arcgis.com/apps/MinimalGallery/index.html?appid=a60bb2f0142b440eadee1a69a11693fc</a>
+and store in <em>data\raw\</em></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Current working directory:"</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+<span class="c1"># create sub-folders in 'data' folder</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'raw'</span><span class="p">,</span> <span class="s1">'interim'</span><span class="p">,</span> <span class="s1">'processed'</span><span class="p">]:</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">'../data/'</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Folder'</span><span class="p">,</span> <span class="n">temp</span><span class="p">,</span> <span class="s1">'already exists.'</span><span class="p">)</span>
+    
+<span class="c1"># download and save raw datasets</span>
+    <span class="c1"># HOGARES</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">'https://crtm.maps.arcgis.com/sharing/rest/content/items/d9e8c48ae6a1474faa34083239007307/data'</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'../data/raw/EDM2018HOGARES.xlsx'</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span>
+<span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="n">output</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1"># INDIVIDUOS</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">'https://crtm.maps.arcgis.com/sharing/rest/content/items/07dad41b543641d3964a68851fc9ad11/data'</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'../data/raw/EDM2018INDIVIDUOS.xlsx'</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span>
+<span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="n">output</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1"># VIAJES</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">'https://crtm.maps.arcgis.com/sharing/rest/content/items/6afd4db8175d4902ada0803f08ccf50e/data'</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'../data/raw/EDM2018VIAJES.xlsx'</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span>
+<span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="n">output</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1"># XETAPAS</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">'https://crtm.maps.arcgis.com/sharing/rest/content/items/81919e30e674422d93203a3190eafcdc/data'</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'../data/raw/EDM2018XETAPAS.xlsx'</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span>
+<span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="n">output</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># display content of 'raw' folder</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">"../data/raw" folder contains:'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">'../data/raw'</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Folder ../data/raw already exists.
+Folder ../data/interim already exists.
+Folder ../data/processed already exists.
+
+"../data/raw" folder contains:
+['.gitkeep', 'EDM2018HOGARES.xlsx', 'EDM2018INDIVIDUOS.xlsx', 'EDM2018VIAJES.xlsx', 'EDM2018XETAPAS.xlsx', 'public_transport_madrid', 'zt1259', 'zt208', 'zt84']
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Join-datasets">
+<a class="anchor" href="#Join-datasets" aria-hidden="true"><span class="octicon octicon-link"></span></a>Join datasets<a class="anchor-link" href="#Join-datasets"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ind</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">'../data/raw/EDM2018INDIVIDUOS.xlsx'</span><span class="p">)</span>
+<span class="n">hog</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">'../data/raw/EDM2018HOGARES.xlsx'</span><span class="p">)</span>
+<span class="n">via</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">'../data/raw/EDM2018VIAJES.xlsx'</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'VORIHORAINI'</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="s1">'VDESHORAFIN'</span><span class="p">:</span><span class="nb">str</span><span class="p">})</span> <span class="c1"># specify times to be read as strings</span>
+<span class="n">etap</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">'../data/raw/EDM2018XETAPAS.xlsx'</span><span class="p">)</span>
+
+<span class="c1"># set unique identifiers as index for each DataFrame</span>
+<span class="n">via</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">"ID_HOGAR"</span><span class="p">,</span> <span class="s2">"ID_IND"</span><span class="p">,</span> <span class="s2">"ID_VIAJE"</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">ind</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">"ID_HOGAR"</span><span class="p">,</span> <span class="s2">"ID_IND"</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">hog</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"ID_HOGAR"</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">etap</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">"ID_HOGAR"</span><span class="p">,</span> <span class="s2">"ID_IND"</span><span class="p">,</span> <span class="s2">"ID_VIAJE"</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">people</span> <span class="o">=</span> <span class="n">hog</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">lsuffix</span> <span class="o">=</span> <span class="s2">"_hog"</span><span class="p">,</span> <span class="n">rsuffix</span> <span class="o">=</span> <span class="s2">"_ind"</span><span class="p">)</span>
+<span class="n">trips</span> <span class="o">=</span> <span class="n">people</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">via</span><span class="p">,</span> <span class="n">rsuffix</span> <span class="o">=</span> <span class="s2">"_via"</span><span class="p">)</span>
+<span class="n">legs</span> <span class="o">=</span> <span class="n">trips</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">etap</span><span class="p">,</span> <span class="n">rsuffix</span> <span class="o">=</span> <span class="s2">"_etap"</span><span class="p">)</span>
+
+<span class="c1"># people is a dataset of households and unique people</span>
+<span class="n">people</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">'..\data\interim\people.csv'</span><span class="p">,</span>  <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># trips includes households, people and unique trips</span>
+<span class="n">trips</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">'..\data\interim\trips.csv'</span><span class="p">,</span>  <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># legs includes households, people, trips and unique legs</span>
+<span class="n">legs</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">'..\data\interim\legs.csv'</span><span class="p">,</span>  <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="c1">## you likely want to work with "trips" for analysing mobility patterns.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="join-codes-for-survey-answers">
+<a class="anchor" href="#join-codes-for-survey-answers" aria-hidden="true"><span class="octicon octicon-link"></span></a>join codes for survey answers<a class="anchor-link" href="#join-codes-for-survey-answers"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">codes_hog</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span> <span class="p">(</span><span class="s1">'../data/raw/EDM2018HOGARES.xlsx'</span><span class="p">,</span> <span class="n">sheet_name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">codes_ind</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span> <span class="p">(</span><span class="s1">'../data/raw/EDM2018INDIVIDUOS.xlsx'</span><span class="p">,</span> <span class="n">sheet_name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">codes_via</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span> <span class="p">(</span><span class="s1">'../data/raw/EDM2018VIAJES.xlsx'</span><span class="p">,</span> <span class="n">sheet_name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">codes_etap</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span> <span class="p">(</span><span class="s1">'../data/raw/EDM2018XETAPAS.xlsx'</span><span class="p">,</span> <span class="n">sheet_name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># append all codes to a single file</span>
+<span class="n">codes</span> <span class="o">=</span> <span class="n">codes_hog</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">codes_ind</span><span class="p">,</span> <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">codes_via</span><span class="p">,</span> <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="kc">False</span>
+                                <span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">codes_etap</span><span class="p">,</span> <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="kc">False</span>
+                                        <span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Unnamed: 0"</span><span class="p">,</span> <span class="s2">"Unnamed: 1"</span><span class="p">])</span>
+
+<span class="c1"># forward fill varibale and specification to work as proper table (and not only visually in Excel)</span>
+<span class="n">codes</span><span class="p">[</span><span class="s2">"VARIABLE"</span><span class="p">]</span> <span class="o">=</span> <span class="n">codes</span><span class="o">.</span><span class="n">VARIABLE</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">"ffill"</span><span class="p">)</span>
+<span class="n">codes</span><span class="p">[</span><span class="s2">"ESPECIFICACIÓN"</span><span class="p">]</span> <span class="o">=</span> <span class="n">codes</span><span class="p">[</span><span class="s2">"ESPECIFICACIÓN"</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">"ffill"</span><span class="p">)</span>
+
+<span class="c1"># split code and value </span>
+<span class="n">codes</span><span class="p">[</span><span class="s1">'CODE'</span><span class="p">],</span> <span class="n">codes</span><span class="p">[</span><span class="s1">'VALUE'</span><span class="p">]</span> <span class="o">=</span> <span class="n">codes</span><span class="p">[</span><span class="s1">'VALORES'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">str</span>
+<span class="n">codes</span><span class="p">[</span><span class="s1">'CODE'</span><span class="p">],</span> <span class="n">unused</span> <span class="o">=</span> <span class="n">codes</span><span class="o">.</span><span class="n">CODE</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" '"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">str</span>
+
+<span class="n">codes</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">codes</span><span class="p">[</span><span class="n">codes</span><span class="o">.</span><span class="n">VARIABLE</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="n">codes</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'../data/interim/codes.csv'</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Translate codes by using Google Sheets.</p>
+<p><img src="//images/copied_from_nb/my_icons/google_sheets_screenshot.png" alt=""></p>
+<p>(Google API Package for Python wasnt working? <a href="https://pypi.org/project/googletrans/">https://pypi.org/project/googletrans/</a> ) Option to use the Google translate API (<a href="https://cloud.google.com/translate/docs/reference/rest">https://cloud.google.com/translate/docs/reference/rest</a>) but for this use case wasnt really worth to set it up.</p>
+<ul>
+<li>Translation is stored in data\processed\codes_translated.csv</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="create-new-variables">
+<a class="anchor" href="#create-new-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>create new variables<a class="anchor-link" href="#create-new-variables"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># trips = pd.read_csv(r'..\data\interim\trips.csv', dtype = {'VORIHORAINI':str, 'VDESHORAFIN':str})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">codes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">'..\data\processed\codes_translated.csv'</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'CODE'</span><span class="p">:</span> <span class="nb">float</span><span class="p">})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Set value of sex to 'Man' and 'Woman' instead of numbers.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">code_sex</span> <span class="o">=</span> <span class="n">codes</span><span class="p">[</span><span class="n">codes</span><span class="o">.</span><span class="n">VARIABLE</span> <span class="o">==</span> <span class="s2">"C2SEXO"</span><span class="p">][[</span><span class="s1">'CODE'</span><span class="p">,</span> <span class="s1">'VALUE_en'</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">'VALUE_en'</span><span class="p">:</span> <span class="s1">'sex'</span><span class="p">},</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">trips</span> <span class="o">=</span> <span class="n">trips</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code_sex</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'CODE'</span><span class="p">),</span> <span class="n">on</span> <span class="o">=</span> <span class="s2">"C2SEXO"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Compute duration from start (VORIHORAINI) and endtime (VDESHORAFIN).</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">VDESHORAFIN</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">VORIHORAINI</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">hours</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">VDESHORAFIN</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">VORIHORAINI</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">60</span>
+<span class="n">trips</span><span class="p">[</span><span class="s2">"duration"</span><span class="p">]</span> <span class="o">=</span> <span class="n">mins</span> <span class="o">+</span> <span class="n">hours</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Create a datetime object from string.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trips</span><span class="p">[</span><span class="s1">'start_time'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">VORIHORAINI</span><span class="p">,</span> <span class="nb">format</span> <span class="o">=</span> <span class="s1">'%H%M'</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">time</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Endtimes sometimes exceeds 24 hours. (If a trip starts at 11pm and ends at 1am, then the endtime is 2500). Datetime does not work with times &gt; 24h. Therefore this needs to be fixed.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trips</span><span class="p">[</span><span class="s2">"end_time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">trips</span><span class="p">[</span><span class="s1">'VDESHORAFIN'</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">2400</span><span class="p">,</span> 
+                                <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">trips</span><span class="p">[</span><span class="s1">'VDESHORAFIN'</span><span class="p">])</span> <span class="o">-</span> <span class="mi">2400</span><span class="p">,</span> 
+                                <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">trips</span><span class="p">[</span><span class="s1">'VDESHORAFIN'</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trips</span><span class="p">[</span><span class="s1">'end_time'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">end_time</span><span class="p">,</span> <span class="nb">format</span> <span class="o">=</span> <span class="s1">'%H%M'</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="s1">'coerce'</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">time</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trips</span><span class="p">[</span><span class="s2">"speed"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">duration</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1"># skip if start and Endtime is the same</span>
+                       <span class="n">trips</span><span class="o">.</span><span class="n">DISTANCIA_VIAJE</span> <span class="o">/</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">duration</span> <span class="o">/</span> <span class="mi">60</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trips</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">trips</span><span class="o">.</span><span class="n">speed</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="p">,</span> <span class="s2">"speed"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The original survey has a 24 different modes:</p>
+<ul>
+<li>1: Renfe Cercanías (train)</li>
+<li>2: Autobus interurbano (intercity bus)</li>
+<li>3: Autobus urbano otro municipio (urban bus other municipalities)</li>
+<li>4: Metro (metro)</li>
+<li>5: Metro ligero/tranvía (light train)</li>
+<li>6: Autobus urbano Madrid EMT (urban bus Madrid)</li>
+<li>7: Resto renfe (train)</li>
+<li>8: Autobus discrecional (unscheduled bus)</li>
+<li>9: Autobus de largo recorrido (intercity bus)</li>
+<li>10: Taxi (taxi)</li>
+<li>11: Coche conductor particular (private car)</li>
+<li>12: Coche conductor empresa (business car)</li>
+<li>13: Coche conductor alquiler sin conductor (car rental without driver)</li>
+<li>14: Coche pasajero particular (private car passenger)</li>
+<li>15: Coche pasajero empresa (business car passenger)</li>
+<li>16: Coche pasajero alquiler con conductor (car rental with driver)</li>
+<li>17: Moto/ciclomotor particular (private motorcycle)</li>
+<li>18: Moto/ciclomotor publica (public motorcycle)</li>
+<li>19: Moto/ciclomotor empresa (business motorcycle)</li>
+<li>20: Bicicleta particular (private bicycle)</li>
+<li>21: Bicicleta publica (public bicycle)</li>
+<li>22: Bicicleta empresa (business bicycle)</li>
+<li>23: Otros (other)</li>
+<li>24: Andando/pie (walk)</li>
+</ul>
+<p>These are simplified to four modes:</p>
+<ul>
+<li>public transport</li>
+<li>car</li>
+<li>other (including motorbicycle and bicycle)</li>
+<li>walk</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">code_mode</span> <span class="o">=</span> <span class="n">codes</span><span class="p">[</span><span class="n">codes</span><span class="p">[</span><span class="s1">'VARIABLE'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'MODO_PRIORITARIO'</span><span class="p">][[</span><span class="s1">'CODE'</span><span class="p">,</span> <span class="s1">'VALUE_en'</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">trips</span> <span class="o">=</span> <span class="n">trips</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code_mode</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'CODE'</span><span class="p">),</span>  <span class="n">on</span> <span class="o">=</span> <span class="s1">'MODO_PRIORITARIO'</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">"left"</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">trips</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"VALUE_en"</span><span class="p">:</span> <span class="s2">"mode"</span><span class="p">},</span> <span class="n">axis</span> <span class="o">=</span> <span class="s2">"columns"</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="n">trips</span><span class="p">[</span><span class="s2">"mode_simple"</span><span class="p">]</span> <span class="o">=</span> <span class="n">trips</span><span class="o">.</span><span class="n">MODO_PRIORITARIO</span>
+<span class="n">trips</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">trips</span><span class="o">.</span><span class="n">MODO_PRIORITARIO</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">"mode_simple"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"public transport"</span>
+<span class="n">trips</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">trips</span><span class="o">.</span><span class="n">MODO_PRIORITARIO</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">MODO_PRIORITARIO</span> <span class="o">&lt;</span> <span class="mi">17</span><span class="p">),</span> <span class="s2">"mode_simple"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"car"</span>
+<span class="n">trips</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">trips</span><span class="o">.</span><span class="n">MODO_PRIORITARIO</span> <span class="o">&gt;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">MODO_PRIORITARIO</span> <span class="o">&lt;</span> <span class="mi">24</span><span class="p">),</span> <span class="s2">"mode_simple"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"other"</span>
+<span class="n">trips</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">trips</span><span class="o">.</span><span class="n">MODO_PRIORITARIO</span> <span class="o">==</span> <span class="mi">24</span><span class="p">,</span> <span class="s2">"mode_simple"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"walk"</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The original survey has 12 trip motives:</p>
+<ul>
+<li>1: Casa (Home)</li>
+<li>2: Trabajo (Work)</li>
+<li>3: Gestión de trabajo (work management?)</li>
+<li>4: Estudio (study)</li>
+<li>5: Compras (Purchases)</li>
+<li>6: Médico (Doctor)</li>
+<li>7: Acompañamiento a otra persona (Acompany another person)</li>
+<li>8: Ocio (leisure)</li>
+<li>9: Deporte/ dar un paseo (sport)</li>
+<li>10: Asunto personal (personal matter)</li>
+<li>11: Otro domicilio (other residence)</li>
+<li>12: Otros (other)</li>
+</ul>
+<p>These are simplified to 5 trip motives:</p>
+<ul>
+<li>work</li>
+<li>study</li>
+<li>car / errand</li>
+<li>leisure</li>
+<li>other</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">code_motive</span> <span class="o">=</span> <span class="n">codes</span><span class="p">[</span><span class="n">codes</span><span class="p">[</span><span class="s1">'VARIABLE'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'MOTIVO_PRIORITARIO'</span><span class="p">][[</span><span class="s1">'CODE'</span><span class="p">,</span> <span class="s1">'VALUE_en'</span><span class="p">]]</span>
+<span class="n">trips</span> <span class="o">=</span> <span class="n">trips</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code_motive</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'CODE'</span><span class="p">),</span>  <span class="n">on</span> <span class="o">=</span> <span class="s1">'MOTIVO_PRIORITARIO'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">trips</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"VALUE_en"</span><span class="p">:</span> <span class="s2">"motive"</span><span class="p">},</span> <span class="n">axis</span> <span class="o">=</span> <span class="s2">"columns"</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="n">trips</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s2">"motive_simple"</span><span class="p">]</span> <span class="o">=</span> <span class="n">trips</span><span class="o">.</span><span class="n">motive</span>
+<span class="n">trips</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">trips</span><span class="o">.</span><span class="n">MOTIVO_PRIORITARIO</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">MOTIVO_PRIORITARIO</span> <span class="o">==</span> <span class="mi">3</span><span class="p">),</span> <span class="s2">"motive_simple"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"work"</span>
+<span class="n">trips</span><span class="o">.</span><span class="n">loc</span><span class="p">[((</span><span class="n">trips</span><span class="o">.</span><span class="n">MOTIVO_PRIORITARIO</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">MOTIVO_PRIORITARIO</span> <span class="o">&lt;=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">MOTIVO_PRIORITARIO</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)),</span> <span class="s2">"motive_simple"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"care / errand"</span>
+<span class="n">trips</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">trips</span><span class="o">.</span><span class="n">MOTIVO_PRIORITARIO</span> <span class="o">&gt;=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">MOTIVO_PRIORITARIO</span> <span class="o">&lt;=</span> <span class="mi">9</span><span class="p">),</span> <span class="s2">"motive_simple"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"leisure"</span>
+<span class="n">trips</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">trips</span><span class="o">.</span><span class="n">MOTIVO_PRIORITARIO</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">MOTIVO_PRIORITARIO</span> <span class="o">==</span> <span class="mi">11</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">MOTIVO_PRIORITARIO</span> <span class="o">==</span> <span class="mi">12</span><span class="p">),</span> <span class="s2">"motive_simple"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"other"</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Traffic can be divided into three main categories time wise:</p>
+<ul>
+<li>rush hour (usually morning and afternoon)</li>
+<li>off-peak (usually during the day)</li>
+<li>low traffic (usually night and weekend)</li>
+</ul>
+<p>A new category 'daytime' is created for this.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">((</span><span class="n">trips</span><span class="o">.</span><span class="n">start_time</span> <span class="o">&gt;=</span> <span class="n">time</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">start_time</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">(</span><span class="mi">9</span><span class="p">)))</span> <span class="o">|</span> <span class="p">((</span><span class="n">trips</span><span class="o">.</span><span class="n">start_time</span> <span class="o">&gt;=</span> <span class="n">time</span><span class="p">(</span><span class="mi">17</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">start_time</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">(</span><span class="mi">20</span><span class="p">))),</span>
+     <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">start_time</span> <span class="o">&gt;=</span> <span class="n">time</span><span class="p">(</span><span class="mi">9</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">start_time</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">(</span><span class="mi">17</span><span class="p">)),</span>
+     <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">start_time</span> <span class="o">&gt;=</span> <span class="n">time</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">start_time</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span>
+<span class="p">]</span>
+<span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'rush hour (HVZ)'</span><span class="p">,</span> <span class="s1">'off-peak hour (NVZ)'</span><span class="p">,</span> <span class="s1">'low traffic time (SVZ)'</span><span class="p">]</span>
+<span class="n">trips</span><span class="p">[</span><span class="s1">'daytime'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Round age to 5 to get larger groups with the same age and make it easier to work with.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trips</span><span class="p">[</span><span class="s2">"rounded_age"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">EDAD_FIN</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Create four different age groups:</p>
+<ul>
+<li>kids (&lt;= 18)</li>
+<li>young adults (18-25)</li>
+<li>adults (25 - 55)</li>
+<li>seniors (&gt; 55)</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">trips</span><span class="o">.</span><span class="n">EDAD_FIN</span> <span class="o">&lt;=</span> <span class="mi">18</span><span class="p">,</span>
+    <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">EDAD_FIN</span> <span class="o">&gt;</span> <span class="mi">18</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">EDAD_FIN</span> <span class="o">&lt;=</span> <span class="mi">25</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">EDAD_FIN</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">trips</span><span class="o">.</span><span class="n">EDAD_FIN</span> <span class="o">&lt;=</span> <span class="mi">55</span><span class="p">),</span>
+    <span class="n">trips</span><span class="o">.</span><span class="n">EDAD_FIN</span> <span class="o">&gt;</span> <span class="mi">55</span><span class="p">]</span>
+<span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'kids'</span><span class="p">,</span> <span class="s1">'young adults'</span><span class="p">,</span> <span class="s1">'adults'</span><span class="p">,</span> <span class="s1">'seniors'</span><span class="p">]</span>
+<span class="n">trips</span><span class="p">[</span><span class="s1">'age_group'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trips</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">"index"</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Store-preprocessed-data-to-csv-File-to-work-with-in-your-use-case.">
+<a class="anchor" href="#Store-preprocessed-data-to-csv-File-to-work-with-in-your-use-case." aria-hidden="true"><span class="octicon octicon-link"></span></a>Store preprocessed data to csv-File to work with in your use case.<a class="anchor-link" href="#Store-preprocessed-data-to-csv-File-to-work-with-in-your-use-case."> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trips</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">'..\data\processed\trips_custom_variables.csv'</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="CorrelAid/correlaid-codes"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/mobility/preprocessing/2021/02/28/Preprocessing_Madrid_Mobility_Data.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Code from the all corners of the CorrelAid network</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/CorrelAid%2Fcorrelaid-codes" title="CorrelAid/correlaid-codes"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/CorrelAid" title="CorrelAid"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
