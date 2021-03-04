@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Setup Jupyter for blogging | CorrelAid Code[s]</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Setup Jupyter for blogging" />
+<meta name="author" content="Francesco Gastaldello" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Create your environment for hardcore blogging" />
+<meta property="og:description" content="Create your environment for hardcore blogging" />
+<link rel="canonical" href="https://codes.correlaid.org/first%20steps/r/jupyter/2021/02/25/Setup_Jupyter_for_blogging.html" />
+<meta property="og:url" content="https://codes.correlaid.org/first%20steps/r/jupyter/2021/02/25/Setup_Jupyter_for_blogging.html" />
+<meta property="og:site_name" content="CorrelAid Code[s]" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-25T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://codes.correlaid.org/first%20steps/r/jupyter/2021/02/25/Setup_Jupyter_for_blogging.html","@type":"BlogPosting","headline":"Setup Jupyter for blogging","dateModified":"2021-02-25T00:00:00-06:00","datePublished":"2021-02-25T00:00:00-06:00","author":{"@type":"Person","name":"Francesco Gastaldello"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codes.correlaid.org/first%20steps/r/jupyter/2021/02/25/Setup_Jupyter_for_blogging.html"},"description":"Create your environment for hardcore blogging","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://codes.correlaid.org/feed.xml" title="CorrelAid Code[s]" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">CorrelAid Code[s]</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/opensource/">Open Source</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Setup Jupyter for blogging</h1><p class="page-description">Create your environment for hardcore blogging</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-02-25T00:00:00-06:00" itemprop="datePublished">
+        Feb 25, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Francesco Gastaldello</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="//categories/#first steps">first steps</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="//categories/#R">R</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="//categories/#jupyter">jupyter</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/CorrelAid/correlaid-codes/tree/master/_notebooks/2021-02-25-Setup_Jupyter_for_blogging.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/CorrelAid/correlaid-codes/master?filepath=_notebooks%2F2021-02-25-Setup_Jupyter_for_blogging.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/CorrelAid/correlaid-codes/blob/master/_notebooks/2021-02-25-Setup_Jupyter_for_blogging.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Background-info-on-Jupyter's-intentions">Background info on Jupyter&#39;s intentions </a></li>
+<li class="toc-entry toc-h2"><a href="#JupyterLab-vs-Jupyter-Notebook">JupyterLab vs Jupyter Notebook </a></li>
+<li class="toc-entry toc-h2"><a href="#How-to-setup-Python">How to setup Python </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#What-is-"pip"?">What is &quot;pip&quot;? </a></li>
+<li class="toc-entry toc-h3"><a href="#How-to-get-"pip"-on-my-computer?">How to get &quot;pip&quot; on my computer? </a></li>
+<li class="toc-entry toc-h3"><a href="#What-is-"conda"?">What is &quot;conda&quot;? </a></li>
+<li class="toc-entry toc-h3"><a href="#How-to-get-"conda"-on-my-computer?">How to get &quot;conda&quot; on my computer? </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#How-to-setup-JupyterLab-or-Jupyter-Notebook">How to setup JupyterLab or Jupyter Notebook </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Install-Jupyter-Notebook">Install Jupyter Notebook </a></li>
+<li class="toc-entry toc-h3"><a href="#Install-JupyterLab">Install JupyterLab </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-02-25-Setup_Jupyter_for_blogging.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Background-info-on-Jupyter's-intentions">
+<a class="anchor" href="#Background-info-on-Jupyter's-intentions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Background info on Jupyter's intentions<a class="anchor-link" href="#Background-info-on-Jupyter's-intentions"> </a>
+</h2>
+<p>Jupyer and its usefulness with R have been covered in a previous blogpost <a href="https://codes.correlaid.org/first%20steps/r/jupyter/2021/02/18/R_in_jupyter.html">here</a>.
+Go back and have a quick look at what you are capable to do in Jupyter.</p>
+<p>This post will help you setup this framework on your local station and start creating your posts. For further details, please refer to the <a href="https://jupyter.org/install">main page of the projects</a>.</p>
+<p>In this post we are assuming that you, the reader, is starting from zero and have no Python installation (or literacy) on your compuater.</p>
+<p>There are many ways to set you toolkit up for hardcore blogging at CorrelAid. In here we will cover:</p>
+<ul>
+<li>JupyterLab vs Jupyter Notebook.</li>
+<li>How to setup Python.</li>
+<li>How to setup JupyterLab or Jupyter Notebook.</li>
+</ul>
+<p>Let's get started!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="JupyterLab-vs-Jupyter-Notebook">
+<a class="anchor" href="#JupyterLab-vs-Jupyter-Notebook" aria-hidden="true"><span class="octicon octicon-link"></span></a>JupyterLab vs Jupyter Notebook<a class="anchor-link" href="#JupyterLab-vs-Jupyter-Notebook"> </a>
+</h2>
+<p>If you are completely new to the Python world, you might have not heard of <em>JupyterLab</em> or <em>Jupyter Notebook</em>. That's alright, the bottom line is that both can be used to create your IPython notebooks (and therefore posts) for our blog!</p>
+<p>Both are web-based interface, although JupyterLab feels more like a complete IDE (like RStudio) while Jupyter Notebook are documents that combine live runnable code with narrative text (Markdown), equations (LaTeX), images, interactive visualizations and other rich output. Pick you poison and follow us to the next step.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="How-to-setup-Python">
+<a class="anchor" href="#How-to-setup-Python" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to setup Python<a class="anchor-link" href="#How-to-setup-Python"> </a>
+</h2>
+<p>Installing Python can be done in multiple ways depending on your operative system, but also on the choice of package management system that you prefer to use.
+In here we present <code>pip</code> and <code>conda</code>; they have different ways to be installed.</p>
+<h3 id='What-is-"pip"?'>
+<a class="anchor" href="#What-is-" pip aria-hidden="true"><span class="octicon octicon-link"></span></a>What is "pip"?<a class="anchor-link" href="#What-is-%22pip%22?"> </a>
+</h3>
+<p><code>PIP</code> is an acronym that stands for "PIP Installs Packages" or "Preferred Installer Program". It's a command-line utility that allows you to install, reinstall, or uninstall PyPI packages with a simple and straightforward command: <code>pip</code>.</p>
+<h3 id='How-to-get-"pip"-on-my-computer?'>
+<a class="anchor" href="#How-to-get-" pip aria-hidden="true"><span class="octicon octicon-link"></span></a>How to get "pip" on my computer?<a class="anchor-link" href="#How-to-get-%22pip%22-on-my-computer?"> </a>
+</h3>
+<p>We reccomend to use Python 3.x versions, in this way <code>pip</code> will already be available. Here are the installation for <a href="https://www.python.org/downloads/windows/">Windows</a>, <a href="https://www.python.org/downloads/source/">Linux/UNIX</a> and  <a href="https://www.python.org/downloads/mac-osx/">MacOS X</a>.</p>
+<h3 id='What-is-"conda"?'>
+<a class="anchor" href="#What-is-" conda aria-hidden="true"><span class="octicon octicon-link"></span></a>What is "conda"?<a class="anchor-link" href="#What-is-%22conda%22?"> </a>
+</h3>
+<p>Anaconda is a package manager, an environment manager, a Python/R data science distribution, and a collection of over 7,500+ open-source packages. Anaconda is free and easy to install, and it offers free community support.</p>
+<h3 id='How-to-get-"conda"-on-my-computer?'>
+<a class="anchor" href="#How-to-get-" conda aria-hidden="true"><span class="octicon octicon-link"></span></a>How to get "conda" on my computer?<a class="anchor-link" href="#How-to-get-%22conda%22-on-my-computer?"> </a>
+</h3>
+<p>This system is very broad and organic, please refer to the <a href="https://docs.anaconda.com/anaconda/install/">installation page of the project</a> to choose between the full suite or the reduced one (<em>Miniconda</em>)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="How-to-setup-JupyterLab-or-Jupyter-Notebook">
+<a class="anchor" href="#How-to-setup-JupyterLab-or-Jupyter-Notebook" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to setup JupyterLab or Jupyter Notebook<a class="anchor-link" href="#How-to-setup-JupyterLab-or-Jupyter-Notebook"> </a>
+</h2>
+<p>After choosing the Python package manager and between the two methods to create your IPython notebooks, let's have a quick look on how to run the install.</p>
+<h3 id="Install-Jupyter-Notebook">
+<a class="anchor" href="#Install-Jupyter-Notebook" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install Jupyter Notebook<a class="anchor-link" href="#Install-Jupyter-Notebook"> </a>
+</h3>
+<p>Install <em>Jupyter Notebook</em> via <code>pip</code>, you can run in console:<br></p>
+
+<pre><code>pip install notebook</code></pre>
+<p>Or via <code>conda</code>:<br></p>
+
+<pre><code>conda install -c conda-forge notebook</code></pre>
+<p>Run the following command at the Terminal (Mac/Linux) or Command Prompt (Windows) to open your notebooks:<br></p>
+
+<pre><code>jupyter notebook</code></pre>
+<h3 id="Install-JupyterLab">
+<a class="anchor" href="#Install-JupyterLab" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install JupyterLab<a class="anchor-link" href="#Install-JupyterLab"> </a>
+</h3>
+<p>Install <em>JupyterLab</em> via <code>pip</code>, you can run in console:<br></p>
+
+<pre><code>pip install jupyterlab</code></pre>
+<p>Or via <code>conda</code>:<br></p>
+
+<pre><code>conda install -c conda-forge jupyterlab</code></pre>
+<p>Run the following command at the Terminal (Mac/Linux) or Command Prompt (Windows) to open the web interface:<br></p>
+
+<pre><code>jupyter-lab</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Please refer to the <a href="https://jupyter.org/documentation">project documentation</a> for more information.<br>
+Happy blogging!</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="CorrelAid/correlaid-codes"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/first%20steps/r/jupyter/2021/02/25/Setup_Jupyter_for_blogging.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Code from the all corners of the CorrelAid network</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/CorrelAid" title="CorrelAid"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/CorrelAid" title="CorrelAid"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
