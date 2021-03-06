@@ -38,3 +38,11 @@ li {
   width: 35px;
   top: 7px;
 }
+
+
+// table { width: auto; }
+table {
+  width: 90%;
+  margin: 1rem;
+  overflow: auto;
+}
