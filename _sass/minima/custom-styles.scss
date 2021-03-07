@@ -42,7 +42,20 @@ li {
 
 // table { width: auto; }
 table {
-  width: 90%;
-  margin: 1rem;
-  overflow: auto;
+  white-space: normal;
+  display:block;
+  overflow:auto;
+  max-width: 100%;
+  font-size: 100%;
+  border:none;
+  th{
+    text-align: center! important;
+    padding: 5;
+    // background-color: #eeeeff;
+    background-color: #4d4d4d;
+    color: grey;
+  }
+  td{
+    padding: 5px;
+  }
 }
