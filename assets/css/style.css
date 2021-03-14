@@ -423,5 +423,18 @@ pre code { font-size: 15px !important; }
 
 /*-----------------------------------*/
 /*----- ADD YOUR STYLES BELOW -------*/
+h1, h2 { color: #3c61aa; }
+
+li h3, li h4, li .post-link { color: #3c3c3b; }
+
+li .post-meta-description { color: #2d3b5a; }
+
+.site-title::before { content: url("/images/logo_square_white.png"); display: inline-block; position: relative; width: 35px; top: 7px; }
+
+table { white-space: normal; display: block; overflow: auto; max-width: 100%; font-size: 100%; border: none; }
+
+table th { text-align: center !important; padding: 5px; background-color: #eeeeff; color: #4d4d4d; }
+
+table td { padding: 5px; }
 
 /*# sourceMappingURL=style.css.map */
