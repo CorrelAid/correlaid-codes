@@ -1,9 +1,59 @@
 /*-----------------------------------*/
 /*--- IMPORT STYLES FOR FASTPAGES ---*/
-@import "minima/fastpages-styles";   
+@import "minima/fastpages-styles";
 
 /*-----------------------------------*/
 /*----- ADD YOUR STYLES BELOW -------*/
 
 // If you want to turn off dark background for syntax highlighting, comment or delete the below line.
-// @import "minima/fastpages-dracula-highlight"; 
+// @import "minima/fastpages-dracula-highlight";
+
+// discussed color-options so far for headings
+
+// color: rgb(150, 195, 66);
+// color: #3C61AA;
+// color: #2D3B5A;
+// rgb(150, 195, 66);
+
+h1,
+h2 {
+  color: #3c61aa;
+}
+
+li {
+  h3,
+  h4,
+  .post-link {
+    color: #3c3c3b;
+  }
+  .post-meta-description {
+    color: #2d3b5a;
+  }
+}
+
+.site-title::before {
+  content: url("/images/logo_square_white.png");
+  display: inline-block;
+  position: relative;
+  width: 35px;
+  top: 7px;
+}
+
+
+table {
+  white-space: normal;
+  display:block;
+  overflow:auto;
+  max-width: 100%;
+  font-size: 100%;
+  border:none;
+  th{
+    text-align: center! important;
+    padding: 5px;
+    background-color: #eeeeff;
+    color: #4d4d4d;
+  }
+  td{
+    padding: 5px;
+  }
+}
