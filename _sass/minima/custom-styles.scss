@@ -40,7 +40,6 @@ li {
 }
 
 
-// table { width: auto; }
 table {
   white-space: normal;
   display:block;
@@ -50,10 +49,9 @@ table {
   border:none;
   th{
     text-align: center! important;
-    padding: 5;
-    // background-color: #eeeeff;
-    background-color: #4d4d4d;
-    color: grey;
+    padding: 5px;
+    background-color: #eeeeff;
+    color: #4d4d4d;
   }
   td{
     padding: 5px;
