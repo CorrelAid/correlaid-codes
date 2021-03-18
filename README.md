@@ -14,14 +14,14 @@ _powered by [fastpages](https://github.com/fastai/fastpages)_
 
 ## What to contribute
 
--- social good
--- open data
--- open source
--- data science
+- social good
+- open data
+- open source
+- data science
 
--- something you would have found helpfull
--- summary of other (web) content
-    -- other blogs (possibly your own)
+- something you would have found helpfull
+- summary of other (web) content
+    - other blogs (possibly your own)
 
 ## How to contribute
 
