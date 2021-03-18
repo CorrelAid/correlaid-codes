@@ -30,6 +30,7 @@ At CorrelAid, we are big fans of Open Source. We contribute to the community thr
 - [Hugo Website](https://github.com/CorrelAid/hugo-website): code for our website [correlaid.org](https://correlaid.org)
 - [CorrelAid Code[s] Blog](https://github.com/CorrelAid/correlaid-codes): code for this blog [codes.correlaid.org](https://codes.correlaid.org)
 - [CorrelAid docs](https://github.com/CorrelAid/docs): internal documentation / wiki, available at [docs.correlaid.org](https://docs.correlaid.org)
+- [CorrelAid Slackbot](https://github.com/CorrelAid/correlaid-slackbot-js): Code for the CorrelBot who does different things in our Slack workspace. Implemented in Node.js and AWS Lambda.
 - [projectutils](https://github.com/CorrelAid/projectutils): R package for coordination of our projects
 - [projectsdb](https://github.com/CorrelAid/projectsdb): "database" of some of our finished projects 
 - [projects-django](https://github.com/CorrelAid/projects-django): project management application (currently in development)
